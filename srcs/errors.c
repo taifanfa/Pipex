@@ -2,7 +2,7 @@
 
 void    error_and_exit(const char *msg)
 {
-    if (msg)
-        perror(msg);
-    exit(EXIT_FAILURE);
+	if (msg)
+		perror(msg);
+	exit(EXIT_FAILURE);
 }
