@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmorais- <tmorais-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 14:09:11 by tmorais-          #+#    #+#             */
-/*   Updated: 2025/12/02 14:09:30 by tmorais-         ###   ########.fr       */
+/*   Created: 2025/12/10 14:59:35 by tmorais-          #+#    #+#             */
+/*   Updated: 2025/12/10 14:59:46 by tmorais-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error_and_exit(const char *msg)
+void	free_matrix(char **mat)
 {
-	if (msg)
-		perror(msg);
-	exit(EXIT_FAILURE);
+	int	i;
+
+	i = 0;
+	if (!mat)
+		return ;
+	while (mat[i])
+	{
+		free(mat[i]);
+		i++;
+	}
+	free(mat);
 }

@@ -1,33 +1,29 @@
 NAME = pipex
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-INCLUDES = -Iincludes
+INCLUDES = -I includes
 
-SRCS_DIR = srcs
-OBJS_DIR = objs
+SRCS = srcs/main.c \
+		srcs/exec_cmd.c \
+		srcs/utils_path.c \
+		srcs/utils_ftsplit.c \
+		srcs/utils_ftstrdup.c \
+		srcs/errors.c \
+		srcs/free_utils.c \
+		srcs/utils_main.c
 
-SRCS = $(SRCS_DIR)/main.c \
-		$(SRCS_DIR)/exec_cmd.c \
-		$(SRCS_DIR)/utils_path.c \
-		$(SRCS_DIR)/utils_ftsplit.c \
-		$(SRCS_DIR)/utils_ftstrdup.c \
-		$(SRCS_DIR)/errors.c \
-		$(SRCS_DIR)/utils_cmd.c \
-		$(SRCS_DIR)/free_and_cleans.c
-
-OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c includes/pipex.h
-	@mkdir -p $(OBJS_DIR)
+%.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -rf $(OBJS_DIR)
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)

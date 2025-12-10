@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_path.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmorais- <tmorais-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/10 14:50:49 by tmorais-          #+#    #+#             */
+/*   Updated: 2025/12/10 14:51:35 by tmorais-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex.h"
 
 static char	*get_env_path(char **envp)
@@ -24,38 +36,25 @@ char	**get_paths(char **envp)
 	return (ft_split(path_env, ':'));
 }
 
-static char *join_path_cmd(char *dir, char *cmd)
-{
-    char *tmp;
-    char *full;
-
-    tmp = ft_strjoin(dir, "/");
-    if (!tmp)
-        return (NULL);
-    full = ft_strjoin(tmp, cmd);
-    free(tmp);
-    return (full);
-}
-
 char	*find_cmd(char **paths, char *cmd)
 {
 	int		i;
+	char	*tmp;
 	char	*full;
 
 	if (!cmd)
 		return (NULL);
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
-	if (!paths)
-		return (NULL);
 	i = 0;
-	while (paths[i])
+	while (paths && paths[i])
 	{
-		full = join_path_cmd(paths[i], cmd);
-		if (full && access(full, X_OK) == 0)
+		tmp = ft_strjoin(paths[i], "/");
+		full = ft_strjoin(tmp, cmd);
+		free(tmp);
+		if (access(full, X_OK) == 0)
 			return (full);
-		if (full)
-			free(full);
+		free(full);
 		i++;
 	}
 	return (NULL);
